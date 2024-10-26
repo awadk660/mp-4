@@ -7,6 +7,11 @@ export async function GET(request: Request): Promise<NextResponse>{
     const {searchParams} = new URL(request.url)
     const city = searchParams.get("city");
 
+    if (!WEATHER_API_KEY) {
+        console.error("WEATHER_API_KEY is missing or undefined");
+        return NextResponse.json({ error: "Missing API Key" }, { status: 501 });
+    }
+
     if (!city) {
         return NextResponse.json({error: "No [city] provided"}, {status:400});
     }
